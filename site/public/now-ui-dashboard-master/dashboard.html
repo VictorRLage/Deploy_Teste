@@ -45,13 +45,13 @@
             </a>
           </li>
           <li>
-            <a href="./tables.html">
+            <a href="./registros.html">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p class="maior">Registros</p>
             </a>
           </li>
           <li>
-            <a href="./notifications.html">
+            <a href="./metricas.html">
               <i class="now-ui-icons ui-1_bell-53"></i>
               <p class="maior">Notificações</p>
             </a>
@@ -298,7 +298,8 @@
 
 <script>
   var vetor_Componentes = []
-  var nome = sessionStorage.NOME_EMPRESA 
+  var nome = sessionStorage.NOME_USUARIO
+  var nomeEmp = sessionStorage.NOME_EMPRESA
   function ObterDados(fkTorre) {
 
     var perfil;
@@ -671,7 +672,7 @@
   }
 </script>
 <script>
-  function alertas(nome, componente, metrica, frase) {
+  function alertas(nomeEmp, componente, metrica, frase) {
 
     const options = {
       method: 'POST',
@@ -681,7 +682,7 @@
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        query: `mutation {           createCard(input: {             pipe_id:302621694,             title: "Card",             fields_attributes:[               {field_id: "nome_da_empresa", field_value: "${nome}"},{field_id: "descri_o_do_alerta", field_value: "${componente}"},{field_id: "m_tricas", field_value: " ${frase}${metrica}"}             ],           }) {               card {                 title               }             }           }`
+        query: `mutation {           createCard(input: {             pipe_id:302621694,             title: "Card",             fields_attributes:[               {field_id: "nome_da_empresa", field_value: "${nomeEmp}"},{field_id: "descri_o_do_alerta", field_value: "${componente}"},{field_id: "m_tricas", field_value: " ${frase}${metrica}"}             ],           }) {               card {                 title               }             }           }`
       })
     };
     fetch('https://api.pipefy.com/graphql', options)
@@ -696,10 +697,10 @@
     if (metrica > 15 && metrica < 30) {
       frase = "Alerta: Alguns pacotes estão sendo perdidos! Porcentagem de perda de pacotes: "
       console.log('Cheguei aqui')
-      alertas(nome, "Pacotes", metrica, frase)
+      alertas(nomeEmp, "Pacotes", metrica, frase)
     } else if (metrica > 30) {
       frase = "Perigo: Muitos Pacotes Perdidos! Porcentagem de perda de pacotes: "
-      alertas(nome, "Pacotes", metrica, frase)
+      alertas(nomeEmp, "Pacotes", metrica, frase)
     }
   }
 
@@ -709,10 +710,10 @@
     if (metrica > 85 && metrica < 100) {
       frase = "Alerta: RAM sobrecarregando! Porcentagem de uso: "
       console.log('Cheguei aqui')
-      alertas(nome, "RAM", metrica, frase)
+      alertas(nomeEmp, "RAM", metrica, frase)
     } else if (metrica == 100) {
       frase = "Perigo: RAM está sobrecarregada! Porcentagem de uso: "
-      alertas(nome, "RAM", metrica, frase)
+      alertas(nomeEmp, "RAM", metrica, frase)
     }
   }
 
@@ -722,10 +723,10 @@
     if (metrica > 50 && metrica < 75) {
       frase = "Alerta: CPU sobrecarregando! Porcentagem de uso: "
       console.log('Cheguei aqui')
-      alertas(nome, "CPU", metrica, frase)
+      alertas(nomeEmp, "CPU", metrica, frase)
     } else if (metrica >= 75) {
       frase = "Perigo: CPU sobrecarregada! Porcentagem de uso: "
-      alertas(nome, "CPU", metrica, frase)
+      alertas(nomeEmp, "CPU", metrica, frase)
     }
   }
 
@@ -735,10 +736,10 @@
     if (metrica >60 && metrica <= 80) {
       frase = "Alerta: Disco sobrecarregando! Porcentagem de uso: "
       console.log('Cheguei aqui')
-      alertas(nome, "Disco", metrica, frase)
+      alertas(nomeEmp, "Disco", metrica, frase)
     } else if (metrica > 80) {
       frase = "Perigo: Disco sobrecarregado! Porcentagem de uso: "
-      alertas(nome, "Disco", metrica, frase)
+      alertas(nomeEmp, "Disco", metrica, frase)
     }
   }
 
